@@ -1,7 +1,17 @@
 name: Automated tests
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose target
+        required: true
+        default:
+        type: choice
+        options:
+          - first_test
+          - second_test
+
 
 jobs:
   test:
@@ -14,11 +24,15 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-      - name: Install Firefox
+      - name: Install Chrome
         run: sudo apt-get install google-chrome-stable
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run tests
+      - name: first_test
+        if: "github.event.inputs.deployment_target == 'first_test'"
+        run: pytest tests_api.py
+      - name: second_test
+        if: "github.event.inputs.deployment_target == 'second_test'"
         run: pytest tests_api.py
 
 
