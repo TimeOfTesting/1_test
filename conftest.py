@@ -1,6 +1,6 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 
 url = 'https://reqres.in/'
 
@@ -8,7 +8,7 @@ url = 'https://reqres.in/'
 def driver():
     options = Options()
     options.add_argument('--headless')
-    browser = webdriver.Firefox(options=options)
+    browser = webdriver.Chrome(options=options)
     browser.get(url)
     yield browser
     browser.quit()
