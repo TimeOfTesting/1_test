@@ -1,6 +1,8 @@
-import pytest
+import os
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import pytest
 
 url = 'https://reqres.in/'
 
@@ -8,9 +10,16 @@ url = 'https://reqres.in/'
 def driver():
     options = Options()
     options.add_argument('--headless')
-    browser = webdriver.Chrome(options=options)
+    geckodriver_path = os.path.abspath('geckodriver.exe')
+
+    firefox_service = FirefoxService(executable_path=geckodriver_path)
+    browser = webdriver.Firefox(service=firefox_service, options=options)
     browser.get(url)
+
     yield browser
+
+    browser.execute_script("window.localStorage.clear();")
+    browser.execute_script("window.sessionStorage.clear();")
     browser.quit()
 
 @pytest.fixture(autouse=True)
