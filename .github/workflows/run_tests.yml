@@ -35,14 +35,6 @@ jobs:
         if: "github.event.inputs.deployment_target == 'second_test'"
         run: pytest tests_api.py
 
-schedule:
-  nightly:
-    cron: "* * * * *"
-    only:
-      -schedules
-    scripts:
-      - pytest tests_api.py
-
 
 
 
