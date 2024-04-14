@@ -1,6 +1,4 @@
 name: Automated tests
-stade:
-  -test
 
 on:
   workflow_dispatch:
